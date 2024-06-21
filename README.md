@@ -8,18 +8,18 @@ Check our [docker-compose.yaml](./docker-compose.yaml) file. It's already config
 
 Once you have configured the containers, you will need to set the following required environment variables:
 
-| Key                       | Value             |
-| ------------------------- | ----------------- |
-| `STORMKIT_DOMAIN`         | '<your-domain>'   |
-| `STORMKIT_APP_SECRET`     | '<your-secret>'   |
-| `STORMKIT_ADMIN_PASSWORD` | '<your-password>' |
-| `STORMKIT_ADMIN_USERNAME` | '<your-username>' |
-| `POSTGRES_HOST`           | '<database-host>' |
-| `POSTGRES_PORT`           | '<database-port>' |
-| `POSTGRES_DB`             | '<database-name>' |
-| `POSTGRES_USER`           | '<database-user>' |
-| `POSTGRES_PASSWORD`       | '<database-user>' |
-| `REDIS_ADDR`              | '<redis-address>' |
+| Key                       | Value           |
+| ------------------------- | --------------- |
+| `STORMKIT_DOMAIN`         | 'your-domain'   |
+| `STORMKIT_APP_SECRET`     | 'your-secret'   |
+| `STORMKIT_ADMIN_PASSWORD` | 'your-password' |
+| `STORMKIT_ADMIN_USERNAME` | 'your-username' |
+| `POSTGRES_HOST`           | 'database-host' |
+| `POSTGRES_PORT`           | 'database-port' |
+| `POSTGRES_DB`             | 'database-name' |
+| `POSTGRES_USER`           | 'database-user' |
+| `POSTGRES_PASSWORD`       | 'database-user' |
+| `REDIS_ADDR`              | 'redis-address' |
 
 Example environment variables:
 
@@ -113,13 +113,13 @@ Now click on the `General` tab and:
 
 Once you have your GitHub app created, add these additional environment variables:
 
-| Key                | Value                      |
-| ------------------ | -------------------------- |
-| `GITHUB_APP_ID`    | '<github-app-id>'          |
-| `GITHUB_ACCOUNT`   | '<owned-by> (without `@`)' |
-| `GITHUB_CLIENT_ID` | '<github-client-id>'       |
-| `GITHUB_PRIV_KEY`  | '<github-app-private-key>' |
-| `GITHUB_SECRET`    | '<github-app-secret>'      |
+| Key                | Value                     |
+| ------------------ | ------------------------- |
+| `GITHUB_APP_ID`    | 'github-app-id'           |
+| `GITHUB_ACCOUNT`   | 'owned-by> (without `@`)' |
+| `GITHUB_CLIENT_ID` | 'github-client-id'        |
+| `GITHUB_PRIV_KEY`  | 'github-app-private-key'  |
+| `GITHUB_SECRET`    | 'github-app-secret'       |
 
 ```bash
 # This is your GitHub App ID. This can be found under the General tab of your GitHub App page.
@@ -130,10 +130,10 @@ GITHUB_APP_ID=927000
 GITHUB_ACCOUNT=stormkit-io
 
 # The GitHub App client ID. This can be found under the General tab of your GitHub App page.
-GITHUB_CLIENT_ID='Iv1.<random_token>'
+GITHUB_CLIENT_ID='Iv1.<random_token'
 
 # This is the Client secret that we generated previously after creating the GitHub App.
-GITHUB_SECRET='<your_secret>'
+GITHUB_SECRET='your_secret'
 
 # The Base64 encoded private key generated previously after creating the GitHub App.
 # You can use an online service such as https://www.base64encode.org/ to encode your secret.
