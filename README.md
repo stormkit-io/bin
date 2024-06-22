@@ -21,14 +21,6 @@ STORMKIT_DOMAIN=example.org
 # This must be a 32 characters long alphanumeric variable.
 STORMKIT_APP_SECRET=xzSX0KEntt9EO8pQM0msmVm3WkQktbJu
 
-# The username used to login to the Admin Dashboard. This is where you will
-# deploy the Stormkit Frontend. After the initial deployment, this can be removed.
-STORMKIT_ADMIN_USERNAME=root
-
-# The password used to login to the Admin Dashboard. This is where you will
-# deploy the Stormkit Frontend. After the initial deployment, this can be removed.
-STORMKIT_ADMIN_PASSWORD=123456
-
 # The host name of the database. For docker-compose, this is the name of the service.
 POSTGRES_HOST=db
 
@@ -52,10 +44,26 @@ REDIS_ADDR=redis:6379
 
 PS: Make sure to generate your own values.
 
+## Configuring your Domain
+
+Go to your DNS provider and create following A record:
+
+```
+*.example.org => IP Address of your Instance
+```
+
+Stormkit uses two reserverd subdomains:
+
+`api` and `stormkit`. The rest will be used for deployment previews.
+
+## Automatic SSL
+
+Stormkit handles the SSL certificates for you automatically.
+
 ## Authentication
 
 Once deployed your Stormkit Frontend you may notice that the UI provides no option to authenticate.
-This is because you will need to setup your own authentication method.
+This is because you will need to setup your own authentication method.\
 
 ### GitHub
 
@@ -91,12 +99,12 @@ Next, subscribe to the following events:
 - Push
 
 Finally, choose `Only on this account` for the question `Where can this GitHub App be installed?`.
-This will prevent users outside your organization to sign up to your Self-Hosted Stormkit instance.
+This will prevent users outside your organization to create apps on your Stormkit instance.
 
 Now click on the `General` tab and:
 
-1. Create a client Secret
-1. Create a private key (at the end of the page)
+1. Create a client secret
+1. Create a private key (scroll down to the bottom of the page)
 
 Once you have your GitHub app created, add these additional environment variables:
 
@@ -104,8 +112,8 @@ Once you have your GitHub app created, add these additional environment variable
 # This is your GitHub App ID. This can be found under the General tab of your GitHub App page.
 GITHUB_APP_ID=927000
 
-# The account owner of the GitHub App.
-# This can be found next to the `Owned by:` in the General tab of your GitHub App page.
+# This is the slug of your GitHub App name. It can be found in the URL:
+# https://github.com/settings/apps/stormkit-io
 GITHUB_ACCOUNT=stormkit-io
 
 # The GitHub App client ID. This can be found under the General tab of your GitHub App page.
