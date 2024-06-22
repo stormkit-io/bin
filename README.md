@@ -121,3 +121,17 @@ GITHUB_PRIV_KEY='WW91ciBiYXNlIDY0IGVuY29kZWQgZ2l0aHViIHByaXZhdGUga2V5IC0gWW91ciB
 ```
 
 Finally, restart the services so that environment variables are picked.
+
+## Troubleshooting
+
+- I'm seeing the `no matching manifest for linux/arm64/v8 in the manifest list entries` error
+
+  Try adding `platform: linux/amd64` in your docker-compose.yaml file under each service.
+
+  ```yaml
+  // example
+  workerserver:
+      image: ghcr.io/stormkit-io/workerserver:latest
+      container_name: workerserver
+      platform: linux/amd64
+  ```
