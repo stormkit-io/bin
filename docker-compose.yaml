@@ -39,7 +39,7 @@ services:
     volumes:
       - stormkit:/deployments
     environment:
-      - NODE_SETUP=true
+      - NODE_VERSION=22
     depends_on:
       - redis
       - db
@@ -53,7 +53,7 @@ services:
     env_file:
       - .env
     environment:
-      - NODE_SETUP=true
+      - NODE_VERSION=22
     ports:
       - 80:80
       - 443:443
