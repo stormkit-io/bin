@@ -163,3 +163,8 @@ docker service update stormkit_workerserver
       image: ghcr.io/stormkit-io/workerserver:latest
       platform: linux/amd64
   ```
+
+- `docker stack ps stormkit` displays `no suitable node (unsupported platform on 1 node)` error
+
+  This is due to `docker swarm` not supporing the `platform` property. If you're running on your local environment,
+  try running `docker compose up` instead.
