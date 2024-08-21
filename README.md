@@ -44,26 +44,9 @@ REDIS_ADDR=redis:6379
 
 PS: Make sure to generate your own values.
 
-## Configuring your Domain
-
-Go to your DNS provider and create following A record:
-
-```
-*.example.org => IP Address of your Instance
-```
-
-Stormkit uses two reserverd subdomains:
-
-`api` and `stormkit`. The rest will be used for deployment previews.
-
-## Automatic SSL
-
-Stormkit handles the SSL certificates for you automatically.
-
 ## Authentication
 
-Once deployed your Stormkit Frontend you may notice that the UI provides no option to authenticate.
-This is because you will need to setup your own authentication method.\
+You will need to setup your own authentication method.
 
 ### GitHub
 
@@ -123,12 +106,50 @@ GITHUB_CLIENT_ID='Iv1.<random_token'
 GITHUB_SECRET='your_secret'
 
 # The Base64 encoded private key generated previously after creating the GitHub App.
-# You can use an online service such as https://www.base64encode.org/ to encode your secret.
+# You can use `openssl` to encode your string:
+#
+# echo -n 'input' | openssl base64
+#
 # Make sure to enclose your variable with quotes.
 GITHUB_PRIV_KEY='WW91ciBiYXNlIDY0IGVuY29kZWQgZ2l0aHViIHByaXZhdGUga2V5IC0gWW91ciBiYXNlIDY0IGVuY29kZWQgZ2l0aHViIHByaXZhdGUga2V5IC0gWW91ciBiYXNlIDY0IGVuY29kZWQgZ2l0aHViIHByaXZhdGUga2V5IC0gWW91ciBiYXNlIDY0IGVuY29kZWQgZ2l0aHViIHByaXZhdGUga2V5IC0gWW91ciBiYXNlIDY0IGVuY29kZWQgZ2l0aHViIHByaXZhdGUga2V5IC0gWW91ciBiYXNlIDY0IGVuY29kZWQgZ2l0aHViIHByaXZhdGUga2V5IC0gWW91ciBiYXNlIDY0IGVuY29kZWQgZ2l0aHViIHByaXZhdGUga2V5IC0gWW91ciBiYXNlIDY0IGVuY29kZWQgZ2l0aHViIHByaXZhdGUga2V5IC0gWW91ciBiYXNlIDY0IGVuY29kZWQgZ2l0aHViIHByaXZhdGUga2V5IC0gWW91ciBiYXNlIDY0IGVuY29kZWQgZ2l0aHViIHByaXZhdGUga2V5'
 ```
 
-Finally, restart the services so that environment variables are picked.
+## Configuring your Domain
+
+Go to your DNS provider and create following A record:
+
+```
+*.example.org => IP Address of your Instance
+```
+
+Stormkit uses two reserverd subdomains:
+
+`api` and `stormkit`. The rest will be used for deployment previews.
+
+## Automatic SSL
+
+Stormkit handles the SSL certificates for you automatically.
+
+## Starting your stack
+
+Execute the following command to start your swarm stack:
+
+```bash
+ docker compose config | sed '/published:/ s/"//g' | sed "/name:/d" | docker stack deploy -c - stormkit
+```
+
+This command uses `docker compose config` to parse the config and inject the environment variables.
+Unfortunately, `docker stack` does not handle `.env` files therefore it's a workaround. `sed` commands
+are used to fix incompatabilities between `docker compose` and `docker stack`.
+
+## Rolling updates
+
+You can update your service using the following command:
+
+```
+docker service update stormkit_hosting
+docker service update stormkit_workerserver
+```
 
 ## Troubleshooting
 
