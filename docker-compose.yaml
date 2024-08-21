@@ -4,10 +4,10 @@ volumes:
 services:
   db:
     image: postgres
-    container_name: database
     restart: always
     ports:
-      - "5434:5432"
+      - published: 5432
+        target: 5432
     environment:
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER}
@@ -18,21 +18,21 @@ services:
     image: redis:6.2.12
     restart: always
     ports:
-      - "6379:6379"
+      - published: 6379
+        target: 6379
 
   redis-monitoring:
-    container_name: redis-monitoring
     image: hibiken/asynqmon
     ports:
-      - "8086:8086"
+      - published: 8086
+        target: 8086
     environment:
       - PORT=8086
       - REDIS_ADDR=redis:6379
-    depends_on:
-      - redis
 
   workerserver:
     image: ghcr.io/stormkit-io/workerserver:latest
+    restart: always
     container_name: workerserver
     env_file:
       - .env
@@ -40,12 +40,10 @@ services:
       - stormkit:/deployments
     environment:
       - NODE_VERSION=22
-    depends_on:
-      - redis
-      - db
 
   hosting:
     image: ghcr.io/stormkit-io/hosting:latest
+    restart: always
     container_name: hosting
     # Needed only when using a FileSys Deployment
     volumes:
@@ -55,8 +53,7 @@ services:
     environment:
       - NODE_VERSION=22
     ports:
-      - 80:80
-      - 443:443
-    depends_on:
-      - db
-      - redis
+      - published: 80
+        target: 80
+      - published: 443
+        target: 443
