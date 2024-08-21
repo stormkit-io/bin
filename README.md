@@ -161,6 +161,5 @@ docker service update stormkit_workerserver
   // example
   workerserver:
       image: ghcr.io/stormkit-io/workerserver:latest
-      container_name: workerserver
       platform: linux/amd64
   ```
