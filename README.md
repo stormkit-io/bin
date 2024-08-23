@@ -151,6 +151,12 @@ docker service update stormkit_hosting
 docker service update stormkit_workerserver
 ```
 
+## Useful commands
+
+| Command                               | Description                               |
+| ------------------------------------- | ----------------------------------------- |
+| `docker stack ps --no-trunc stormkit` | List available services with their status |
+
 ## Troubleshooting
 
 - I'm seeing the `no matching manifest for linux/arm64/v8 in the manifest list entries` error
