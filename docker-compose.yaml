@@ -37,7 +37,13 @@ services:
     env_file:
       - .env
     volumes:
+      # Share deployments folder between workerserver and hosting.
+      # Deployments will be executed in the workerserver, and the artifacts
+      # are shared with the hosting service through this shared folder.
+      # This can be removed when using another service for deployments,
+      # such as GitHub actions or other CI/CD platforms.
       - stormkit:/deployments
+      - ./stormkit:/root
     environment:
       - NODE_VERSION=22
 
@@ -47,10 +53,19 @@ services:
     container_name: hosting
     # Needed only when using a FileSys Deployment
     volumes:
+      # Same as workerserver. Read above for more information.
       - stormkit:/deployments
+      # Use this only if you need node.js in the hosting service.
+      - ./stormkit:/root
     env_file:
       - .env
     environment:
+      # Specifying this variable will tell the container to install Node.js
+      # which is needed only if you're using serverless functions or server
+      # commands in a VM. If you're hosting Stormkit in a cloud
+      # provider such as AWS or Alibaba Cloud, and you're using only serverless
+      # functionas, then you may not need installing Node.js as you can use their
+      # cloud-native serverless services (such as Lambda or Function Compute).
       - NODE_VERSION=22
     ports:
       - published: 80
