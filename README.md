@@ -135,7 +135,14 @@ Stormkit handles the SSL certificates for you automatically.
 Execute the following command to start your swarm stack:
 
 ```bash
- docker compose config | sed '/published:/ s/"//g' | sed "/name:/d" | docker stack deploy -c - stormkit
+# Note if you have NODE_VERSION environment set, you'll need to create the mount folder.
+# This is only needed if you're installing Node.js inside the containers
+mkdir -p stormkit
+
+# Initialize stack (only needed for master node)
+docker swarm init
+
+docker compose config | sed '/published:/ s/"//g' | sed "/name:/d" | docker stack deploy -c - stormkit
 ```
 
 This command uses `docker compose config` to parse the config and inject the environment variables.
