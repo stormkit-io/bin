@@ -100,7 +100,7 @@ GITHUB_APP_ID=927000
 GITHUB_ACCOUNT=stormkit-io
 
 # The GitHub App client ID. This can be found under the General tab of your GitHub App page.
-GITHUB_CLIENT_ID='Iv1.<random_token'
+GITHUB_CLIENT_ID='Iv1.random_token'
 
 # This is the Client secret that we generated previously after creating the GitHub App.
 GITHUB_SECRET='your_secret'
