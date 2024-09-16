@@ -163,6 +163,7 @@ docker service update stormkit_workerserver
 | Command                               | Description                               |
 | ------------------------------------- | ----------------------------------------- |
 | `docker stack ps --no-trunc stormkit` | List available services with their status |
+| `docker stack rm stormkit`            | Remove the whole stack                    |
 
 ## Troubleshooting
 
