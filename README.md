@@ -160,10 +160,11 @@ docker compose config | sed '/published:/ s/"//g' | sed "/name:/d" | docker stac
 
 ## Useful commands
 
-| Command                               | Description                               |
-| ------------------------------------- | ----------------------------------------- |
-| `docker stack ps --no-trunc stormkit` | List available services with their status |
-| `docker stack rm stormkit`            | Remove the whole stack                    |
+| Command                               | Description                                               |
+| ------------------------------------- | --------------------------------------------------------- |
+| `docker stack ps --no-trunc stormkit` | List available services with their status (detailed view) |
+| `docker stack services stormkit`      | List available services                                   |
+| `docker stack rm stormkit`            | Remove the whole stack                                    |
 
 ## Troubleshooting
 
