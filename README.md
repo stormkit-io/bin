@@ -158,6 +158,16 @@ docker compose pull
 docker compose config | sed '/published:/ s/"//g' | sed "/name:/d" | docker stack deploy -c - stormkit
 ```
 
+## Updating environment variables
+
+If you need to update environment variables simply run the following command:
+
+```
+docker compose config | sed '/published:/ s/"//g' | sed "/name:/d" | docker stack deploy -c - stormkit
+```
+
+Docker Swarm will update only affected containers.
+
 ## Useful commands
 
 | Command                               | Description                                               |
