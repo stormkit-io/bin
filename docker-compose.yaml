@@ -42,8 +42,7 @@ services:
       # are shared with the hosting service through this shared folder.
       # This can be removed when using another service for deployments,
       # such as GitHub actions or other CI/CD platforms.
-      - stormkit:/deployments
-      - ./stormkit:/home/stormkit
+      - stormkit:/shared
     environment:
       - NODE_VERSION=22
 
@@ -54,9 +53,7 @@ services:
     # Needed only when using a FileSys Deployment
     volumes:
       # Same as workerserver. Read above for more information.
-      - stormkit:/deployments
-      # Use this only if you need node.js in the hosting service.
-      - ./stormkit:/home/stormkit
+      - stormkit:/shared
     env_file:
       - .env
     environment:
