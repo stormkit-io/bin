@@ -43,7 +43,7 @@ services:
       # This can be removed when using another service for deployments,
       # such as GitHub actions or other CI/CD platforms.
       - stormkit:/deployments
-      - ./stormkit:/root
+      - ./stormkit:/home/stormkit
     environment:
       - NODE_VERSION=22
 
@@ -56,7 +56,7 @@ services:
       # Same as workerserver. Read above for more information.
       - stormkit:/deployments
       # Use this only if you need node.js in the hosting service.
-      - ./stormkit:/root
+      - ./stormkit:/home/stormkit
     env_file:
       - .env
     environment:
