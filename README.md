@@ -154,8 +154,8 @@ are used to fix incompatabilities between `docker compose` and `docker stack`.
 You can update your service using the following commands:
 
 ```
-docker service update stormkit_hosting
-docker service update stormkit_workerserver
+docker compose pull
+docker compose config | sed '/published:/ s/"//g' | sed "/name:/d" | docker stack deploy -c - stormkit
 ```
 
 ## Useful commands
