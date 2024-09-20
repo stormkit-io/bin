@@ -6,44 +6,6 @@ This repository contains the binaries to run Stormkit on Self-Hosted environment
 
 Check our [docker-compose.yaml](./docker-compose.yaml) file. It's already configured to work on a single machine and contains all microservices needed for Stormkit to function as expected.
 
-Once you have configured the containers, you will need to set the following required environment variables:
-
-```bash
-# This tells under which domain to host Stormkit.
-# In this example:
-#
-# stormkit.example.org => Stormkit Frontend
-# api.example.org      => Stormkit API
-# *.example.org        => Deployment Previews
-STORMKIT_DOMAIN=example.org
-
-# The application secret used internally to encrypt/decrypt variables.
-# This must be a 32 characters long alphanumeric variable.
-STORMKIT_APP_SECRET=xzSX0KEntt9EO8pQM0msmVm3WkQktbJu
-
-# The host name of the database. For docker-compose, this is the name of the service.
-POSTGRES_HOST=db
-
-# The port to connect to the database.
-POSTGRES_PORT=5432
-
-# The name of the database.
-POSTGRES_DB=stormkit_db
-
-# The postgres user to connect to the database.
-POSTGRES_USER=stormkit_admin
-
-# The password of POSTGRES_USER.
-POSTGRES_PASSWORD=123456
-
-# The address for the redis instance. This is a passwordless service so make sure to host
-# your Redis instance in a private cloud. For docker compose, this is the name of the service.
-# The port number has to specified as well.
-REDIS_ADDR=redis:6379
-```
-
-PS: Make sure to generate your own values.
-
 ## Authentication
 
 You will need to setup your own authentication method.
