@@ -34,8 +34,6 @@ services:
     image: ghcr.io/stormkit-io/workerserver:latest
     restart: always
     container_name: workerserver
-    env_file:
-      - .env
     volumes:
       # Share deployments folder between workerserver and hosting.
       # Deployments will be executed in the workerserver, and the artifacts
@@ -46,6 +44,40 @@ services:
     environment:
       - NODE_VERSION=22
 
+      # This is the domain that will be used to create the endpoints.
+      # For instance, for example.org, Stormkit creates these endpoints:
+      #
+      # health.example.org    => an endpoint to verify the service is up and running
+      # api.example.org       => the api service that Stormkit uses
+      # stormkit.example.org  => the user interface to access your applications
+      # *.example.org         => development endpoints
+      #
+      # NOTE: This is not the domain that you'd like to host. You configure those from
+      # the Stormkit UI.
+      - STORMKIT_DOMAIN=${STORMKIT_DOMAIN}
+
+      # The application secret that is used to encrypt/decrypt sensitive data.
+      # Do not expose this.
+      - STORMKIT_APP_SECRET=${STORMKIT_APP_SECRET}
+
+      # If you'd like to bring your own, external runner for deployments, configure
+      # this variable. Defaults to `local`. Possible values are: `github` (more services can be added on demand.)
+      - STORMKIT_DEPLOYER_SERVICE=${STORMKIT_DEPLOYER_SERVICE}
+
+      # When `STORMKIT_DEPLOYER_SERVICE` is `github`, this variable is needed to
+      # trigger the GitHub Action.
+      - GITHUB_APP_TOKEN=${GITHUB_APP_TOKEN}
+
+      # Variables to access the PostgreSQL database
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+
+      # Variable(s) to access Redis
+      - REDIS_ADDR=${REDIS_ADDR}
+
   hosting:
     image: ghcr.io/stormkit-io/hosting:latest
     restart: always
@@ -54,8 +86,6 @@ services:
     volumes:
       # Same as workerserver. Read above for more information.
       - stormkit:/shared
-    env_file:
-      - .env
     environment:
       # Specifying this variable will tell the container to install Node.js
       # which is needed only if you're using serverless functions or server
@@ -64,6 +94,74 @@ services:
       # functionas, then you may not need installing Node.js as you can use their
       # cloud-native serverless services (such as Lambda or Function Compute).
       - NODE_VERSION=22
+
+      # See Workerserver configuration for these environment variables' documentation.
+      - STORMKIT_DOMAIN=${STORMKIT_DOMAIN}
+      - STORMKIT_APP_SECRET=${STORMKIT_APP_SECRET}
+      - STORMKIT_DEPLOYER_SERVICE=${STORMKIT_DEPLOYER_SERVICE}
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - REDIS_ADDR=${REDIS_ADDR}
+
+      ####################################################################################
+      #                                                                                  #
+      # Configure these variables when `STORMKIT_DEPLOYER_SERVICE` is other than `local` #
+      #                                                                                  #
+      ####################################################################################
+
+      # When `STORMKIT_DEPLOYER_SERVICE` is `github`, this variable is needed to stop the GitHub Action.
+      - GITHUB_APP_TOKEN=${GITHUB_APP_TOKEN}
+
+      # The access and secret key used by the external runner.
+      - STORMKIT_RUNNER_SECRET_KEY=${STORMKIT_RUNNER_SECRET_KEY}
+      - STORMKIT_RUNNER_ACCESS_KEY=${STORMKIT_RUNNER_ACCESS_KEY}
+
+      ##################################################################
+      #                                                                #
+      # Configure these variables when Authentication method is GitHub #
+      #                                                                #
+      ##################################################################
+
+      # This is your GitHub App ID. This can be found under the General tab of your GitHub App page.
+      - GITHUB_APP_ID={$GITHUB_APP_ID}
+
+      # The client secret generated after creating the GitHub App.
+      - GITHUB_SECRET=${GITHUB_SECRET}
+
+      # The GitHub App client ID. This can be found under the General tab of your GitHub App page.
+      - GITHUB_CLIENT_ID=${GITHUB_CLIENT_ID}
+
+      # The Base64 encoded private key generated previously after creating the GitHub App.
+      # You can use `openssl` to encode your string:
+      #
+      # cat my-key.pem | openssl base64 -A
+      #
+      # Make sure to enclose your variable with quotes.
+      - GITHUB_PRIV_KEY=${GITHUB_PRIV_KEY}
+
+      #########################################################################################
+      #                                                                                       #
+      # Configure these variables when Authentication method is BitBucket                     #
+      # See: https://support.atlassian.com/bitbucket-cloud/docs/use-oauth-on-bitbucket-cloud/ #
+      #                                                                                       #
+      #########################################################################################
+
+      - BITBUCKET_SECRET=${BITBUCKET_SECRET}
+      - BITBUCKET_CLIENT_ID=${BITBUCKET_CLIENT_ID}
+
+      ###################################################################
+      #                                                                 #
+      # Configure these variables when Authentication method is GitLab  #
+      # See: https://docs.gitlab.com/ee/integration/oauth_provider.html #
+      #                                                                 #
+      ###################################################################
+
+      - GITLAB_SECRET=${GITLAB_SECRET}
+      - GITLAB_CLIENT_ID=${GITLAB_CLIENT_ID}
+
     ports:
       - mode: ingress
         target: 80
