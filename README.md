@@ -97,46 +97,51 @@ Stormkit handles the SSL certificates for you automatically.
 Execute the following command to start your swarm stack:
 
 ```bash
-# Note if you have NODE_VERSION environment set, you'll need to create the mount folder.
-# This is only needed if you're installing Node.js inside the containers
-mkdir -p stormkit
-
+# If you're using Docker Swarm:
 # Initialize stack (only needed for master node)
 docker swarm init
+docker stack deploy -c docker-compose.yaml stormkit
 
-docker compose config | sed '/published:/ s/"//g' | sed "/name:/d" | docker stack deploy -c - stormkit
+# If you're using Docker Compose:
+docker compose up -d
 ```
-
-This command uses `docker compose config` to parse the config and inject the environment variables.
-Unfortunately, `docker stack` does not handle `.env` files therefore it's a workaround. `sed` commands
-are used to fix incompatabilities between `docker compose` and `docker stack`.
 
 ## Rolling updates
 
 You can update your service using the following commands:
 
-```
+```bash
 docker compose pull
-docker compose config | sed '/published:/ s/"//g' | sed "/name:/d" | docker stack deploy -c - stormkit
+
+# If you are using Docker Swarm:
+docker stack deploy -c docker-compose.yaml stormkit
+
+# If you are using Docker Compose:
+docker compose down "<service_name>" && docker compose up -d "<service_name>"
 ```
 
 ## Updating environment variables
 
 If you need to update environment variables simply run the following command:
 
-```
-docker compose config | sed '/published:/ s/"//g' | sed "/name:/d" | docker stack deploy -c - stormkit
+```bash
+# If you are using Docker Swarm:
+docker stack deploy -c docker-compose.yaml stormkit
+
+# If you are using Docker Compose:
+docker compose down "<service_name>" && docker compose up -d "<service_name>"
 ```
 
 Docker Swarm will update only affected containers.
 
 ## Useful commands
 
-| Command                               | Description                                               |
-| ------------------------------------- | --------------------------------------------------------- |
-| `docker stack ps --no-trunc stormkit` | List available services with their status (detailed view) |
-| `docker stack services stormkit`      | List available services                                   |
-| `docker stack rm stormkit`            | Remove the whole stack                                    |
+| Command                                               | Description                                               |
+| ----------------------------------------------------- | --------------------------------------------------------- |
+| `docker stack ps --no-trunc stormkit`                 | List available services with their status (detailed view) |
+| `docker stack services stormkit`                      | List available services                                   |
+| `docker stack rm stormkit`                            | Remove the whole stack                                    |
+| `docker stack deploy -c docker-compose.yaml stormkit` | Deploy stack or latest changes                            |
 
 ## Troubleshooting
 
