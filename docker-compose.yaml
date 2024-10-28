@@ -70,6 +70,10 @@ services:
       # this variable. Defaults to `local`. Possible values are: `github` (more services can be added on demand.)
       - STORMKIT_DEPLOYER_SERVICE=${STORMKIT_DEPLOYER_SERVICE:-local}
 
+      # The maximum number of deployments that can run in parallel.
+      # If you are running on a single server, we suggest keeping this number low.
+      - STORMKIT_RUNNER_CONCURRENCY=1
+
       # When `STORMKIT_DEPLOYER_SERVICE` is `github`, this variable is needed to
       # trigger the GitHub Action.
       - GITHUB_APP_TOKEN=${GITHUB_APP_TOKEN:-}
