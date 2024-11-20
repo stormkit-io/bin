@@ -59,7 +59,7 @@ GITHUB_APP_ID=927000
 
 # This is the slug of your GitHub App name. It can be found in the URL:
 # https://github.com/settings/apps/stormkit-io
-GITHUB_ACCOUNT=stormkit-io
+GITHUB_APP_NAME=stormkit-io
 
 # The GitHub App client ID. This can be found under the General tab of your GitHub App page.
 GITHUB_CLIENT_ID='Iv1.random_token'
