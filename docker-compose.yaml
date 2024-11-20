@@ -135,6 +135,9 @@ services:
       #                                                                #
       ##################################################################
 
+      # The account name
+      - GITHUB_APP_NAME=${GITHUB_APP_NAME:-}
+
       # This is your GitHub App ID. This can be found under the General tab of your GitHub App page.
       - GITHUB_APP_ID=${GITHUB_APP_ID:-}
 
