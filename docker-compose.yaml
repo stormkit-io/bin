@@ -27,15 +27,6 @@ services:
     volumes:
       - redis:/data
 
-  redis-monitoring:
-    image: hibiken/asynqmon
-    ports:
-      - published: 8086
-        target: 8086
-    environment:
-      - PORT=8086
-      - REDIS_ADDR=redis:6379
-
   workerserver:
     image: ghcr.io/stormkit-io/workerserver:latest
     restart: always
