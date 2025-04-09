@@ -19,7 +19,7 @@ services:
 
   redis:
     container_name: redis
-    image: redis:6.2.12
+    image: redis
     restart: always
     ports:
       - published: 6379
