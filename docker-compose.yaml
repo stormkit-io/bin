@@ -2,6 +2,8 @@ volumes:
   stormkit:
   redis:
   psql:
+  workerserver:
+  hosting:
 
 services:
   db:
@@ -38,6 +40,8 @@ services:
       # This can be removed when using another service for deployments,
       # such as GitHub actions or other CI/CD platforms.
       - stormkit:/shared
+      # We persist the home folder as runtime dependencies are installed here.
+      - workerserver:/home/stormkit
     environment:
       - NODE_VERSION=22
 
@@ -87,6 +91,8 @@ services:
     volumes:
       # Same as workerserver. Read above for more information.
       - stormkit:/shared
+      # We persist the home folder as runtime dependencies are installed here.
+      - hosting:/home/stormkit
     environment:
       # Specifying this variable will tell the container to install Node.js
       # which is needed only if you're using serverless functions or server
