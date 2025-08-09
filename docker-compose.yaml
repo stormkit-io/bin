@@ -16,6 +16,9 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      start_period: 1m
     volumes:
       - psql:/var/lib/postgresql/data
 
@@ -82,6 +85,9 @@ services:
 
       # Variable(s) to access Redis
       - REDIS_ADDR=${REDIS_ADDR}
+    depends_on:
+      db:
+        condition: service_healthy
 
   hosting:
     image: ghcr.io/stormkit-io/hosting:latest
@@ -171,7 +177,9 @@ services:
 
       - GITLAB_SECRET=${GITLAB_SECRET:-}
       - GITLAB_CLIENT_ID=${GITLAB_CLIENT_ID:-}
-
+    depends_on:
+      db:
+        condition: service_healthy
     ports:
       - mode: ingress
         target: 80
