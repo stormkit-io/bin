@@ -5,12 +5,15 @@ volumes:
   workerserver:
   hosting:
 
+networks:
+  stormkit:
+
 services:
   db:
     image: postgres
     restart: always
-    ports:
-      - 127.0.0.1:5432:5432
+    networks:
+      - stormkit
     environment:
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER}
@@ -25,8 +28,8 @@ services:
     container_name: redis
     image: redis
     restart: always
-    ports:
-      - 127.0.0.1:6379:6379
+    networks:
+      - stormkit
     volumes:
       - redis:/data
 
@@ -34,6 +37,8 @@ services:
     image: ghcr.io/stormkit-io/workerserver:latest
     restart: always
     container_name: workerserver
+    networks:
+      - stormkit
     volumes:
       # Share deployments folder between workerserver and hosting.
       # Deployments will be executed in the workerserver, and the artifacts
@@ -96,6 +101,8 @@ services:
     image: ghcr.io/stormkit-io/hosting:latest
     restart: always
     container_name: hosting
+    networks:
+      - stormkit
     # Needed only when using a FileSys Deployment
     volumes:
       # Same as workerserver. Read above for more information.
