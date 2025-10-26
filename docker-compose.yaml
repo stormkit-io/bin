@@ -10,7 +10,7 @@ networks:
 
 services:
   db:
-    image: postgres
+    image: postgres:14
     restart: always
     networks:
       - stormkit
