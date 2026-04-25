@@ -4,7 +4,8 @@ volumes:
   psql:
   workerserver:
   hosting:
-  nix:
+  workerserver_nix:
+  hosting_nix:
 
 networks:
   stormkit:
@@ -50,7 +51,7 @@ services:
       # We persist the home folder as runtime dependencies are installed here.
       - workerserver:/home/stormkit
       # Persist the Nix store so packages don't need to be re-downloaded on restart.
-      - nix:/nix
+      - workerserver_nix:/nix
     environment:
       - NODE_VERSION=24
 
@@ -113,7 +114,7 @@ services:
       # We persist the home folder as runtime dependencies are installed here.
       - hosting:/home/stormkit
       # Persist the Nix store so packages don't need to be re-downloaded on restart.
-      - nix:/nix
+      - hosting_nix:/nix
     environment:
       # Specifying this variable will tell the container to install Node.js
       # which is needed only if you're using serverless functions or server
