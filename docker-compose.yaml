@@ -4,6 +4,7 @@ volumes:
   psql:
   workerserver:
   hosting:
+  nix:
 
 networks:
   stormkit:
@@ -48,8 +49,10 @@ services:
       - stormkit:/shared
       # We persist the home folder as runtime dependencies are installed here.
       - workerserver:/home/stormkit
+      # Persist the Nix store so packages don't need to be re-downloaded on restart.
+      - nix:/nix
     environment:
-      - NODE_VERSION=22
+      - NODE_VERSION=24
 
       # This is the domain that will be used to create the endpoints.
       # For instance, for example.org, Stormkit creates these endpoints:
@@ -109,6 +112,8 @@ services:
       - stormkit:/shared
       # We persist the home folder as runtime dependencies are installed here.
       - hosting:/home/stormkit
+      # Persist the Nix store so packages don't need to be re-downloaded on restart.
+      - nix:/nix
     environment:
       # Specifying this variable will tell the container to install Node.js
       # which is needed only if you're using serverless functions or server
@@ -116,7 +121,7 @@ services:
       # provider such as AWS or Alibaba Cloud, and you're using only serverless
       # functionas, then you may not need installing Node.js as you can use their
       # cloud-native serverless services (such as Lambda or Function Compute).
-      - NODE_VERSION=22
+      - NODE_VERSION=24
 
       # The HTTP and HTTPS ports that the service will listen on.
       - STORMKIT_HTTP_PORT=${STORMKIT_HTTP_PORT:-80}
