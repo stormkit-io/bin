@@ -1,3 +1,9 @@
+x-logging: &default-logging
+  driver: "json-file"
+  options:
+    max-size: "50m"
+    max-file: "5"
+
 volumes:
   stormkit:
   redis:
@@ -14,6 +20,7 @@ services:
   db:
     image: postgres:14
     restart: always
+    logging: *default-logging
     networks:
       - stormkit
     environment:
@@ -30,6 +37,7 @@ services:
     container_name: redis
     image: redis
     restart: always
+    logging: *default-logging
     networks:
       - stormkit
     volumes:
@@ -39,6 +47,7 @@ services:
     image: ghcr.io/stormkit-io/workerserver:latest
     restart: always
     container_name: workerserver
+    logging: *default-logging
     networks:
       - stormkit
     volumes:
@@ -105,6 +114,7 @@ services:
     image: ghcr.io/stormkit-io/hosting:latest
     restart: always
     container_name: hosting
+    logging: *default-logging
     networks:
       - stormkit
     # Needed only when using a FileSys Deployment
